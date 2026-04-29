@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
+import { useLocation } from 'react-router-dom';
 import logo from './EERA_Logo.png';
 import Gallery from './Gallery';
 import { 
@@ -33,12 +34,11 @@ const LoadingScreen = () => {
       className="fixed inset-0 z-[100] bg-navy flex flex-col items-center justify-center p-6"
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0.85, scale: 0.9 }}
+        animate={{ opacity: [0.85, 1, 1], scale: [0.9, 1.04, 1] }}
         transition={{ 
-          duration: 1, 
-          repeat: Infinity, 
-          repeatType: "reverse",
+          duration: 1.2,
+          times: [0, 0.55, 1],
           ease: "easeInOut" 
         }}
         className="flex flex-col items-center gap-8"
@@ -220,17 +220,43 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
 
 // --- Main App ---
 
+const HOME_LOADER_SEEN_KEY = 'eera-home-loader-seen';
 
 export default function App() {
+  const location = useLocation();
   const [filter, setFilter] = useState('All');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    return window.sessionStorage.getItem(HOME_LOADER_SEEN_KEY) !== 'true';
+  });
 
   useEffect(() => {
+    if (!isLoading) {
+      return;
+    }
+
     const timer = setTimeout(() => {
+      window.sessionStorage.setItem(HOME_LOADER_SEEN_KEY, 'true');
       setIsLoading(false);
     }, 2000);
+
     return () => clearTimeout(timer);
-  }, []);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isLoading || !location.hash) {
+      return;
+    }
+
+    const targetSection = document.getElementById(location.hash.slice(1));
+
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [isLoading, location.hash]);
 
   return (
     <>
