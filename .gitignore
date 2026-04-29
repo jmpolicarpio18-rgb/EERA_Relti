@@ -1,0 +1,10 @@
+node_modules/
+build/
+dist/
+coverage/
+.sixth/
+.DS_Store
+*.log
+Modal.txt
+.env*
+!.env.example

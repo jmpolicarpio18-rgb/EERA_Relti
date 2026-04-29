@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  
+  --color-navy: #0F172A;
+  --color-sand: #F5F2ED;
+  --color-gold: #B45309;
+  --color-coastal-green: #2D4A3E;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-sans text-navy bg-sand/30;
+}
+
+.heading-serif {
+  @apply font-serif;
+}
+
+.glass-nav {
+  @apply bg-white/95 backdrop-blur-sm border-b border-navy/10;
+}
+
+.card-editorial {
+  @apply bg-white border border-navy/5 p-6 transition-all duration-300 hover:border-gold/30 hover:shadow-lg;
+}
+
+.label-caps {
+  @apply text-[10px] font-semibold uppercase tracking-[0.2em];
+}
