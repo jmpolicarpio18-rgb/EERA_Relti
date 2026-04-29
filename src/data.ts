@@ -3,10 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import residentialImage from './Commercial.jpg';
+import ecoLifestyleImage from './eco-lifestyle.jpg';
+import subicBayLotsImage from './subic-Bay_Lots.jpg';
+
 export const projects = [
   {
     id: '1512917774080-9991f1c4c750',
     key: 'residential',
+    image: residentialImage,
     name: 'San Antonio Beach Estate',
     title: 'San Antonio Beach Estate',
     location: 'San Antonio, Zambales',
@@ -38,6 +43,7 @@ export const projects = [
   {
     id: '1510798831971-661eb04b3739',
     key: 'eco',
+    image: ecoLifestyleImage,
     name: 'Botolan Coastal Reserve',
     title: 'Botolan Coastal Reserve',
     location: 'Botolan, Zambales',
@@ -69,6 +75,7 @@ export const projects = [
   {
     id: '1486406146924-c4d0016aae41',
     key: 'commercial',
+    image: subicBayLotsImage,
     name: 'Subic Bay Gateway Lots',
     title: 'Subic Bay Gateway Lots',
     location: 'Near Subic Bay, Zambales',

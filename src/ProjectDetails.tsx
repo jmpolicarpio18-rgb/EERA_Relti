@@ -5,7 +5,7 @@
 
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { projects } from './data';
 import { ArrowLeft, MapPin, Check, Zap } from 'lucide-react';
 
@@ -13,6 +13,21 @@ export default function ProjectDetails() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const project = projects.find(p => p.key === projectId);
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  const heroHeight = shouldReduceMotion
+    ? '42vh'
+    : useTransform(scrollY, [0, 420], ['44vh', '18rem']);
+  const heroImageScale = shouldReduceMotion
+    ? 1
+    : useTransform(scrollY, [0, 420], [1, 1.08]);
+  const heroContentY = shouldReduceMotion
+    ? 0
+    : useTransform(scrollY, [0, 420], [0, -28]);
+  const heroContentOpacity = shouldReduceMotion
+    ? 1
+    : useTransform(scrollY, [0, 320], [1, 0.6]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -55,20 +70,27 @@ export default function ProjectDetails() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative h-96 overflow-hidden">
-        <img
-          src={`https://images.unsplash.com/photo-${project.id}?auto=format&fit=crop&w=1920&q=80`}
+      <motion.section
+        style={{ height: heroHeight }}
+        className="relative min-h-[18rem] overflow-hidden md:min-h-[19rem]"
+      >
+        <motion.img
+          src={project.image}
           alt={project.title}
+          style={{ scale: heroImageScale }}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/60 to-transparent"></div>
         <div className="absolute inset-0 flex flex-col justify-end p-8">
-          <div className="max-w-4xl">
+          <motion.div
+            style={{ y: heroContentY, opacity: heroContentOpacity }}
+            className="max-w-4xl"
+          >
             <h1 className="text-5xl md:text-6xl heading-serif text-white mb-4">{project.title}</h1>
             <p className="text-xl text-white/80">{project.heroDescription}</p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Quick Info Cards */}
       <section className="py-12 bg-sand border-b border-navy/10">

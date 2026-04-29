@@ -32,7 +32,7 @@ export default function Gallery({ filter }: { filter: string }) {
             />
             <div className="aspect-[4/5] overflow-hidden bg-slate-100 relative mb-6">
               <img
-                src={`https://images.unsplash.com/photo-${project.id}?auto=format&fit=crop&w=800&q=80`}
+                src={project.image}
                 alt={project.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
